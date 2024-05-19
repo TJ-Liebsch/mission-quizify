@@ -5,8 +5,8 @@ from service import file_uploader
 st.title("Screen 1")
 
 with st.form("Load Data"):
-    # PDF file loader for Screen 1
-    
+    # PDF file loader for Screen 1    
+
     # TASK 2: VectorStore Information
     if load_documents(): # Load if there are existing db/ and files
         read_from_chroma()      # Instantiate and Read from Chroma  
