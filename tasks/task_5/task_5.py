@@ -11,6 +11,7 @@ from langchain_core.documents import Document
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 
+
 class ChromaCollectionCreator:
     def __init__(self, processor, embed_model):
         """
@@ -58,6 +59,17 @@ class ChromaCollectionCreator:
         # https://python.langchain.com/docs/modules/data_connection/document_transformers/character_text_splitter
         # [Your code here for splitting documents]
         
+
+        text_splitter = CharacterTextSplitter(
+            separator = ".",
+            chunk_size = 1000, # Number of characters per chunk
+            chunk_overlap = 200, # Number of characters to overlap between chunks
+        )
+        for pages in self.processor.pages:
+            texts = text_splitter.split_documents([pages])
+
+        # texts = text_splitter.split_documents([self.processor.pages[0]])
+
         if texts is not None:
             st.success(f"Successfully split pages to {len(texts)} documents!", icon="✅")
 
@@ -65,7 +77,12 @@ class ChromaCollectionCreator:
         # https://docs.trychroma.com/
         # Create a Chroma in-memory client using the text chunks and the embeddings model
         # [Your code here for creating Chroma collection]
-        
+
+        # Create a Chroma collection in memory
+        chroma_collection = Chroma.from_documents(texts, embed_client)
+
+        self.db = chroma_collection
+
         if self.db:
             st.success("Successfully created Chroma Collection!", icon="✅")
         else:
@@ -93,7 +110,7 @@ if __name__ == "__main__":
     
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "YOUR PROJECT ID HERE",
+        "project": "gemini-quizify-423500",
         "location": "us-central1"
     }
     
