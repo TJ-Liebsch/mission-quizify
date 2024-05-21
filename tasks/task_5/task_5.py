@@ -1,7 +1,7 @@
 import sys
 import os
 import streamlit as st
-sys.path.append(os.path.abspath('../../'))
+sys.path.append(os.path.abspath('')) # I run it from the main directory
 from tasks.task_3.task_3 import DocumentProcessor
 from tasks.task_4.task_4 import EmbeddingClient
 
@@ -13,14 +13,14 @@ from langchain_community.vectorstores import Chroma
 
 
 class ChromaCollectionCreator:
-    def __init__(self, processor, embed_model):
+    def __init__(self, processor, embedding_model):
         """
         Initializes the ChromaCollectionCreator with a DocumentProcessor instance and embeddings configuration.
         :param processor: An instance of DocumentProcessor that has processed documents.
         :param embeddings_config: An embedding client for embedding documents.
         """
         self.processor = processor      # This will hold the DocumentProcessor from Task 3
-        self.embed_model = embed_model  # This will hold the EmbeddingClient from Task 4
+        self.embedding_model = embedding_model  # This will hold the EmbeddingClient from Task 4
         self.db = None                  # This will hold the Chroma collection
     
     def create_chroma_collection(self):
@@ -79,7 +79,7 @@ class ChromaCollectionCreator:
         # [Your code here for creating Chroma collection]
 
         # Create a Chroma collection in memory
-        chroma_collection = Chroma.from_documents(texts, embed_client)
+        chroma_collection = Chroma.from_documents(texts, self.embedding_model) # not embedding_client
 
         self.db = chroma_collection
 
@@ -114,9 +114,9 @@ if __name__ == "__main__":
         "location": "us-central1"
     }
     
-    embed_client = EmbeddingClient(**embed_config) # Initialize from Task 4
+    embedding_client = EmbeddingClient(**embed_config) # Initialize from Task 4
     
-    chroma_creator = ChromaCollectionCreator(processor, embed_client)
+    chroma_creator = ChromaCollectionCreator(processor, embedding_client)
     
     with st.form("Load Data to Chroma"):
         st.write("Select PDFs for Ingestion, then click Submit")
