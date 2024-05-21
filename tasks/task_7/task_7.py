@@ -3,7 +3,7 @@ from langchain_google_vertexai import VertexAI
 from langchain_core.prompts import PromptTemplate
 import os
 import sys
-sys.path.append(os.path.abspath('../../'))
+sys.path.append(os.path.abspath('')) # I run it from the main directory, otherwise use ../../ inside the single quotes
 
 class QuizGenerator:
     def __init__(self, topic=None, num_questions=1, vectorstore=None):
