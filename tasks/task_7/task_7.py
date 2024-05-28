@@ -3,6 +3,7 @@ from langchain_google_vertexai import VertexAI
 from langchain_core.prompts import PromptTemplate
 import os
 import sys
+import toml
 sys.path.append(os.path.abspath('')) # I run it from the main directory, otherwise use ../../ inside the single quotes
 
 class QuizGenerator:
@@ -160,10 +161,14 @@ if __name__ == "__main__":
     from tasks.task_4.task_4 import EmbeddingClient
     from tasks.task_5.task_5 import ChromaCollectionCreator
     
-    
+    with open("secrets.toml", "r") as s:
+        secrets = toml.load(s)
+
+    project = secrets["google_cloud"]["project_id"]
+
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "gemini-quizify-423500",
+        "project": project,
         "location": "us-central1"
     }
     

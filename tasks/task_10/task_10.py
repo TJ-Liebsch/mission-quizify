@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import sys
 import json
+import toml
 sys.path.append(os.path.abspath(''))
 from tasks.task_3.task_3 import DocumentProcessor
 from tasks.task_4.task_4 import EmbeddingClient
@@ -11,9 +12,14 @@ from tasks.task_9.task_9 import QuizManager
 
 if __name__ == "__main__":
     
+    with open("secrets.toml", "r") as s:
+        secrets = toml.load(s)
+
+    project = secrets["google_cloud"]["project_id"]
+
     embed_config = {
         "model_name": "textembedding-gecko@003",
-        "project": "gemini-quizify-423500",
+        "project": project,
         "location": "us-central1"
     }
     

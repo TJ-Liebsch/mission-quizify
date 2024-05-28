@@ -1,5 +1,5 @@
 # embedding_client.py
-
+import toml
 from langchain_google_vertexai import VertexAIEmbeddings
 
 class EmbeddingClient:
@@ -64,8 +64,12 @@ class EmbeddingClient:
             return None
 
 if __name__ == "__main__":
+    
+    with open("secrets.toml", "r") as s:
+        secrets = toml.load(s)
+
     model_name = "textembedding-gecko@003"
-    project = "gemini-quizify-423500"
+    project = secrets["google_cloud"]["project_id"]
     location = "us-central1"
 
     embedding_client = EmbeddingClient(model_name, project, location)
