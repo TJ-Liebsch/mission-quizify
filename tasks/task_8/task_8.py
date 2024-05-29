@@ -190,7 +190,7 @@ class QuizGenerator:
             # iterates over all of the questions in the question bank
             for existing_question in self.question_bank:
                 # if a question bank contains the new question, return false
-                if question_str == existing_question['question']:
+                if existing_question['question'] == question_str:
                     return False
         # if no duplicates are found
         return True
